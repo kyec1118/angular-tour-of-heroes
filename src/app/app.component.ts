@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { HeroesComponent } from './heroes/heroes.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent {
-  title = 'angular-tour-of-heroes';
+  title = 'Tour of Heroes';
 }

@@ -6,9 +6,11 @@ import { HeroesComponent } from './heroes/heroes.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MessagesComponent } from './messages/messages.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, DashboardComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -16,6 +18,7 @@ import { MessagesComponent } from './messages/messages.component';
     FormsModule,
     CommonModule,
     MessagesComponent,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

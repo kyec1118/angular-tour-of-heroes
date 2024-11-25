@@ -5,6 +5,8 @@ import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { HeroService } from '../hero.service';
 
+import {first} from 'rxjs/operators';
+
 @Component({
   selector: 'app-hero-detail',
   templateUrl: './hero-detail.component.html',
@@ -18,14 +20,23 @@ export class HeroDetailComponent {
     private route: ActivatedRoute,
     private location: Location
   ) {}
+  
+  // Since you have already used route parameter to get hero ID and
+  // use it to fetch the detail data from the service, I think you
+  // don't need to use Input() to pass hero info.
+  // @Input() hero?: Hero;
+
+  hero: Hero | null = null;
+  heroId = Number(this.route.snapshot.paramMap.get('id'));
 
   ngOnInit(): void {
     this.getHero();
   }
 
   getHero() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.heroService.getHero(id).subscribe((hero) => {
+    this.heroService.getHero(this.heroId)
+      .pipe(first()) // Using first() to make the subscription will be destroy after fetching the data. it can avoid waste memory space.
+      .subscribe((hero) => {
       this.hero = hero;
     });
   }
@@ -34,11 +45,13 @@ export class HeroDetailComponent {
     this.location.back();
   }
 
-  save(): void {
+  save() {
     if (this.hero) {
-      this.heroService.updateHero(this.hero).subscribe(() => this.goBack());
+      this.heroService.updateHero(this.hero)
+        .pipe(first()) // the same as above.
+        .subscribe(() => this.goBack());
     }
   }
 
-  @Input() hero?: Hero;
+  
 }

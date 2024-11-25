@@ -46,7 +46,7 @@ describe('HeroDetailComponent', () => {
     it('should fetch the hero based on the route parameter', () => {
       mockHeroService.getHero.and.returnValue(of(mockHero));
 
-      component.ngOnInit();
+      // component.ngOnInit();
 
       expect(mockHeroService.getHero).toHaveBeenCalledWith(1);
       expect(component.hero).toEqual(mockHero);

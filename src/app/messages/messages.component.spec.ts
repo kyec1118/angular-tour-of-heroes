@@ -28,7 +28,7 @@ describe('MessagesComponent', () => {
 
   it('should display messages', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelectorAll('div').length).toBe(2);
+    expect(compiled.querySelectorAll('div.msgcontent').length).toBe(2);
     expect(compiled.textContent).toContain('Message 1');
     expect(compiled.textContent).toContain('Message 2');
   });

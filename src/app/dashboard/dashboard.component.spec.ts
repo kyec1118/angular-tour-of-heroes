@@ -33,11 +33,26 @@ describe('DashboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('#getHeroes', () => {
-    mockHeroService.getHeroes.and.returnValue(of(mockHeroes));
-    component.ngOnInit();
-    expect(mockHeroService.getHeroes).toHaveBeenCalled();
-    expect(component.heroes.length).toBe(4);
-    expect(component.heroes).toEqual(mockHeroes.slice(1, 5));
+  // One test case should only have one expect.
+  describe('fetch hero list', () => {
+    beforeEach(() => {
+      mockHeroService.getHeroes.and.returnValue(of(mockHeroes));
+    });
+
+    it('should call the correct service function', () => {
+      expect(mockHeroService.getHeroes).toHaveBeenCalled();
+    });
+
+    it('should fetch the correct hero list', () => {
+      expect(component.heroes).toEqual(mockHeroes.slice(1, 5));
+    });
   });
+
+  // it('#getHeroes', () => {
+  //   mockHeroService.getHeroes.and.returnValue(of(mockHeroes));
+  //   // component.ngOnInit();
+  //   expect(mockHeroService.getHeroes).toHaveBeenCalled();
+  //   expect(component.heroes.length).toBe(4);
+  //   expect(component.heroes).toEqual(mockHeroes.slice(1, 5));
+  // });
 });

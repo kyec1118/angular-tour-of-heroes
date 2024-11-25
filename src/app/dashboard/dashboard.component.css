@@ -10,6 +10,10 @@ h2 {
   max-width: 1000px;
 
   /* flexbox */
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -46,5 +50,11 @@ a {
 }
 
 a:hover {
-  background-color: #000;
+  background-color: black;
 }
+
+/*
+Copyright Google LLC. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at https://angular.io/license
+*/

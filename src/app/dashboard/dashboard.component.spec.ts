@@ -3,6 +3,7 @@ import { DashboardComponent } from './dashboard.component';
 import { HeroService } from '../hero.service';
 import { of } from 'rxjs';
 import { Hero } from '../hero';
+import { HeroSearchComponent } from '../hero-search/hero-search.component';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -20,7 +21,7 @@ describe('DashboardComponent', () => {
   beforeEach(async () => {
     mockHeroService = jasmine.createSpyObj('HeroService', ['getHeroes']);
     await TestBed.configureTestingModule({
-      declarations: [DashboardComponent],
+      declarations: [DashboardComponent, HeroSearchComponent],
       providers: [{ provide: HeroService, useValue: mockHeroService }],
     }).compileComponents();
 

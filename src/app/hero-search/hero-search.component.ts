@@ -3,7 +3,12 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 @Component({
@@ -16,17 +21,10 @@ import { RouterLink } from '@angular/router';
 export class HeroSearchComponent implements OnInit {
   heroes$!: Observable<Hero[]>;
   heroForm = new FormGroup({
-    term: new FormControl<string>(''),
+    term: new FormControl<string>('', Validators.required),
   });
-  // updated to use formGroup to implement search function
-
-  // private searchTerms = new Subject<string>();
 
   constructor(private heroService: HeroService) {}
-
-  // search(term: string): void {
-  //   this.searchTerms.next(term);
-  // }
 
   ngOnInit(): void {
     this.heroes$ = this.heroForm.controls.term.valueChanges.pipe(
@@ -38,11 +36,7 @@ export class HeroSearchComponent implements OnInit {
     );
   }
 
-  // ngOnInit(): void {
-  //   this.heroes$ = this.searchTerms.pipe(
-  //     debounceTime(300),
-  //     distinctUntilChanged(),
-  //     switchMap((term: string) => this.heroService.searchHeroes(term))
-  //   );
-  // }
+  get termControl() {
+    return this.heroForm.get('term');
+  }
 }

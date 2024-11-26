@@ -42,7 +42,7 @@ describe('HeroSearchComponent', () => {
 
   it('should return an empty array if search term is empty', fakeAsync(() => {
     mockHeroService.searchHeroes.and.returnValue(of(mockHeroes));
-    component.search('');
+    component.heroForm.controls.term.setValue('');
     tick(0);
     component.heroes$.subscribe((heroes) => {
       expect(mockHeroService.searchHeroes).not.toHaveBeenCalled();

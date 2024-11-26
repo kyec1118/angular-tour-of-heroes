@@ -5,6 +5,8 @@ import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { HeroService } from '../hero.service';
 
+import { first } from 'rxjs/operators';
+
 @Component({
   selector: 'app-hero-detail',
   templateUrl: './hero-detail.component.html',
@@ -19,15 +21,19 @@ export class HeroDetailComponent {
     private location: Location
   ) {}
 
+  hero: Hero | null = null;
+  heroId = Number(this.route.snapshot.paramMap.get('id'));
   ngOnInit(): void {
     this.getHero();
   }
 
   getHero() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.heroService.getHero(id).subscribe((hero) => {
-      this.hero = hero;
-    });
+    this.heroService
+      .getHero(this.heroId)
+      .pipe(first()) // Using first() to make the subscription will be destroy after fetching the data. it can avoid waste memory space.
+      .subscribe((hero) => {
+        this.hero = hero;
+      });
   }
 
   goBack() {
@@ -36,9 +42,10 @@ export class HeroDetailComponent {
 
   save(): void {
     if (this.hero) {
-      this.heroService.updateHero(this.hero).subscribe(() => this.goBack());
+      this.heroService
+        .updateHero(this.hero)
+        .pipe(first())
+        .subscribe(() => this.goBack());
     }
   }
-
-  @Input() hero?: Hero;
 }

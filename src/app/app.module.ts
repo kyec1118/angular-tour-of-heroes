@@ -9,13 +9,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService } from './in-memory-data.service';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [AppComponent, DashboardComponent, HeroSearchComponent],
+  declarations: [AppComponent, DashboardComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HeroesComponent,
+    HeroSearchComponent,
     MessagesComponent,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {

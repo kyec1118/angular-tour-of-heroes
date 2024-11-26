@@ -45,23 +45,21 @@ describe('HeroDetailComponent', () => {
   describe('#ngOnInit', () => {
     it('should fetch the hero based on the route parameter', () => {
       mockHeroService.getHero.and.returnValue(of(mockHero));
-
-      component.ngOnInit();
-
       expect(mockHeroService.getHero).toHaveBeenCalledWith(1);
       expect(component.hero).toEqual(mockHero);
     });
   });
 
   describe('#save', () => {
-    it('should call updateHero and navigate back on success', () => {
+    it('should call updateHero', () => {
       mockHeroService.updateHero.and.returnValue(of(mockHero));
-
       component.hero = { ...mockHero, name: 'Updated Name' };
       component.save();
-
       expect(mockHeroService.updateHero).toHaveBeenCalledWith(component.hero);
-      expect(mockLocation.back).toHaveBeenCalled();
+
+      it('should navigate back after update hero success', () => {
+        expect(mockLocation.back).toHaveBeenCalled();
+      });
     });
   });
 

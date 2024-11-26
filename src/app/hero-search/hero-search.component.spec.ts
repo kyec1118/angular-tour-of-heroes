@@ -3,6 +3,7 @@ import { HeroSearchComponent } from './hero-search.component';
 import { HeroService } from '../hero.service';
 import { of } from 'rxjs';
 import { Hero } from '../hero';
+import { fakeAsync, tick } from '@angular/core/testing';
 
 describe('HeroSearchComponent', () => {
   let component: HeroSearchComponent;
@@ -31,8 +32,7 @@ describe('HeroSearchComponent', () => {
 
   it('should search heroes based on search term', (done: DoneFn) => {
     mockHeroService.searchHeroes.and.returnValue(of(mockHeroes));
-    component.ngOnInit();
-    component.search('Hero');
+    component.heroForm.controls.term.setValue('Hero');
     component.heroes$.subscribe((heroes) => {
       expect(mockHeroService.searchHeroes).toHaveBeenCalledWith('Hero');
       expect(heroes).toEqual(mockHeroes);
@@ -40,14 +40,13 @@ describe('HeroSearchComponent', () => {
     });
   });
 
-  it('should return an empty array if search term is empty', (done: DoneFn) => {
-    mockHeroService.searchHeroes.and.returnValue(of([]));
-    component.ngOnInit();
+  it('should return an empty array if search term is empty', fakeAsync(() => {
+    mockHeroService.searchHeroes.and.returnValue(of(mockHeroes));
     component.search('');
+    tick(0);
     component.heroes$.subscribe((heroes) => {
       expect(mockHeroService.searchHeroes).not.toHaveBeenCalled();
       expect(heroes).toEqual([]);
-      done();
     });
-  });
+  }));
 });

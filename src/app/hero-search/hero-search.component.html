@@ -1,12 +1,16 @@
 <div id="search-component">
-    <label for="search-box">Hero Search</label>
-    <input #searchBox id="search-box" (input)="search(searchBox.value)" />
-
+    <form [formGroup]="heroForm">
+        <label for="search-box">Hero Search</label>
+        <!-- <input #searchBox id="search-box" (input)="search(searchBox.value)" / -->
+        <input type="text" [formControl]="heroForm.controls.term">
+    </form>
     <ul class="search-result">
-        <li *ngFor="let hero of heroes$ | async">
+        @for(hero of heroes$ | async ;track hero){
+        <li>
             <a routerLink="/detail/{{hero.id}}">
                 {{hero.name}}
             </a>
         </li>
+        }
     </ul>
 </div>

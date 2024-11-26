@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Hero } from '../hero';
@@ -19,6 +20,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
 })
 export class HeroSearchComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
   heroes$!: Observable<Hero[]>;
   heroForm = new FormGroup({
     term: new FormControl<string>('', Validators.required),
@@ -32,7 +34,8 @@ export class HeroSearchComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((term: string | null) =>
         this.heroService.searchHeroes(term || '')
-      )
+      ),
+      takeUntilDestroyed(this.destroyRef)
     );
   }
 

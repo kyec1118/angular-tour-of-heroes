@@ -8,7 +8,9 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  Validators,
+  ValidationErrors,
+  ValidatorFn,
+  AbstractControl,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -23,8 +25,15 @@ export class HeroSearchComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   heroes$!: Observable<Hero[]>;
   heroForm = new FormGroup({
-    term: new FormControl<string>('', Validators.required),
+    term: new FormControl<string>('', this.emptyStringValidator()),
   });
+
+  emptyStringValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value?.trim();
+      return value ? null : { empty: true };
+    };
+  }
 
   constructor(private heroService: HeroService) {}
 

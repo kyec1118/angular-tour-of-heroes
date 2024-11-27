@@ -3,7 +3,7 @@
         <label for="search-box">Hero Search</label>
         <input type="text" [formControl]="heroForm.controls.term">
     </form>
-    @if(termControl?.invalid){
+    @if(termControl?.errors?.['empty']){
     <div class="search-error">
         *Search text should not be empty.
     </div>

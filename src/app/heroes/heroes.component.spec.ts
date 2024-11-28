@@ -65,7 +65,7 @@ describe('HeroesComponent', () => {
       heroServiceSpy.addHero.and.returnValue(of(newHero));
 
       component.newHeroForm.controls.name.setValue('Hero 3');
-
+      component.add();
       expect(heroServiceSpy.addHero).toHaveBeenCalledWith({
         name: 'Hero 3',
       } as Hero);

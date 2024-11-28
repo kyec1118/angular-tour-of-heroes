@@ -18,7 +18,7 @@ describe('HeroSearchComponent', () => {
   beforeEach(async () => {
     mockHeroService = jasmine.createSpyObj('HeroService', ['searchHeroes']);
     await TestBed.configureTestingModule({
-      declarations: [HeroSearchComponent],
+      imports: [HeroSearchComponent],
       providers: [{ provide: HeroService, useValue: mockHeroService }],
     }).compileComponents();
 
@@ -30,15 +30,16 @@ describe('HeroSearchComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should search heroes based on search term', (done: DoneFn) => {
+  it('should search heroes based on search term', fakeAsync(() => {
     mockHeroService.searchHeroes.and.returnValue(of(mockHeroes));
     component.heroForm.controls.term.setValue('Hero');
+    tick(300);
+    fixture.detectChanges();
     component.heroes$.subscribe((heroes) => {
       expect(mockHeroService.searchHeroes).toHaveBeenCalledWith('Hero');
       expect(heroes).toEqual(mockHeroes);
-      done();
     });
-  });
+  }));
 
   it('should return an empty array if search term is empty', fakeAsync(() => {
     mockHeroService.searchHeroes.and.returnValue(of(mockHeroes));

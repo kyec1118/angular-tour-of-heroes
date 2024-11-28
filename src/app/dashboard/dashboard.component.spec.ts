@@ -4,6 +4,7 @@ import { HeroService } from '../hero.service';
 import { of } from 'rxjs';
 import { Hero } from '../hero';
 import { HeroSearchComponent } from '../hero-search/hero-search.component';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -21,7 +22,8 @@ describe('DashboardComponent', () => {
   beforeEach(async () => {
     mockHeroService = jasmine.createSpyObj('HeroService', ['getHeroes']);
     await TestBed.configureTestingModule({
-      declarations: [DashboardComponent, HeroSearchComponent],
+      declarations: [DashboardComponent],
+      imports: [HeroSearchComponent, RouterTestingModule],
       providers: [{ provide: HeroService, useValue: mockHeroService }],
     }).compileComponents();
 
@@ -36,6 +38,7 @@ describe('DashboardComponent', () => {
   describe('fetch hero list', () => {
     beforeEach(() => {
       mockHeroService.getHeroes.and.returnValue(of(mockHeroes));
+      fixture.detectChanges();
     });
 
     it('should call the get hero service function', () => {
@@ -47,11 +50,3 @@ describe('DashboardComponent', () => {
     });
   });
 });
-
-// it('#getHeroes', () => {
-//   mockHeroService.getHeroes.and.returnValue(of(mockHeroes));
-//   component.ngOnInit();
-//   expect(mockHeroService.getHeroes).toHaveBeenCalled();
-//   expect(component.heroes.length).toBe(4);
-//   expect(component.heroes).toEqual(mockHeroes.slice(1, 5));
-// });

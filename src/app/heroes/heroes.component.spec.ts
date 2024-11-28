@@ -38,9 +38,7 @@ describe('HeroesComponent', () => {
   describe('#ngOnInit', () => {
     it('should fetch heroes on initialization', () => {
       heroServiceSpy.getHeroes.and.returnValue(of(mockHeroes));
-
       component.ngOnInit();
-
       expect(heroServiceSpy.getHeroes).toHaveBeenCalled();
       expect(component.heroes).toEqual(mockHeroes);
     });
@@ -49,9 +47,7 @@ describe('HeroesComponent', () => {
   describe('#getHeroes', () => {
     it('should fetch and set the heroes', () => {
       heroServiceSpy.getHeroes.and.returnValue(of(mockHeroes));
-
       component.getHeroes();
-
       expect(heroServiceSpy.getHeroes).toHaveBeenCalled();
       expect(component.heroes).toEqual(mockHeroes);
     });
@@ -59,7 +55,8 @@ describe('HeroesComponent', () => {
 
   describe('#add', () => {
     it('should not add a hero if the name is empty', () => {
-      component.add(' ');
+      component.newHeroForm.controls.name.setValue('');
+      component.add();
       expect(heroServiceSpy.addHero).not.toHaveBeenCalled();
     });
 
@@ -67,7 +64,7 @@ describe('HeroesComponent', () => {
       const newHero: Hero = { id: 3, name: 'Hero 3' };
       heroServiceSpy.addHero.and.returnValue(of(newHero));
 
-      component.add('Hero 3');
+      component.newHeroForm.controls.name.setValue('Hero 3');
 
       expect(heroServiceSpy.addHero).toHaveBeenCalledWith({
         name: 'Hero 3',
